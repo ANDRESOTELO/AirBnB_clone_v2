@@ -3,27 +3,35 @@
 import uuid
 from datetime import datetime
 import sqlalchemy
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
-
+# From sqlalchemy, base class which maintains a catalog of classes and
+# tables relative to that base
 Base = declarative_base()
 
+
 class BaseModel:
-    """A base class for all hbnb models"""
-
+    """
+    A base class for all hbnb models
+    BaseModel doesn't inherits from Base, because it cause that sqlalchemy
+    try to map it to a table
+    """
+    # Common values to inherit from other classes
     id = Column(String(60), primary_key=True)
-    created_at = Column(DateTime(), nullable=False, datetime.utcnow())
-    updated_at = Column(DateTime(), nullable=False, datetime.utcnow())
-
+    # default value is the current datetime, can't be  null
+    created_at = Column(DateTime, nullable=False, default = datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default = datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
-        if kwargs:
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-        elif not kwargs:
+        """Class constructor that inits class attributes"""
+        
+        # If kwargs is empty assign attributes
+        if not kwargs:
             from models import storage
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
         else:
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
