@@ -17,11 +17,11 @@ class DBStorage():
     def __init__(self):
         """ Constructor method """
         # Retrieve the ENVIRONMENT VARIABLES
-        user = getenv('HBNB_MYSQL_USER')
-        password = getenv('HBNB_MYSQL_PWD')
-        host = getenv('HBNB_MYSQL_HOST')
-        db = getenv('HBNB_MYSQL_DB')
-        env = getenv('HBNB_ENV')
+        user = getenv("HBNB_MYSQL_USER")
+        password = getenv("HBNB_MYSQL_PWD")
+        host = getenv("HBNB_MYSQL_HOST")
+        db = getenv("HBNB_MYSQL_DB")
+        env = getenv("HBNB_ENV")
 
         # Engine creation <dialect = mysql // driver = mysqldb>
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -52,7 +52,7 @@ class DBStorage():
                 objects_dictionary[key] = objects
         else:
             for class_item in classes:
-                objects = self.__session.query(class_item).all()
+                objects = self.__session.query(eval(class_item)).all()
                 key = "{}.{}".format(class_item, objects.id)
                 # setattr() sets the value of the specified attribute
                 # of the specified object
