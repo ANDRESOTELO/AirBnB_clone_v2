@@ -21,6 +21,7 @@ class DBStorage():
         password = getenv('HBNB_MYSQL_PWD')
         host = getenv('HBNB_MYSQL_HOST')
         db = getenv('HBNB_MYSQL_DB')
+        env = getenv('HBNB_ENV')
 
         # Engine creation <dialect = mysql // driver = mysqldb>
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -28,7 +29,7 @@ class DBStorage():
                                       pool_pre_ping=True)
 
         # Drop all tables if the environment variable HBNB_ENV == test
-        if getenv('HBNB_ENV') == 'test':
+        if env == 'test':
             # Base was declared on base_model.py
             Base.metadata.drop_all(self.__engine)
 
