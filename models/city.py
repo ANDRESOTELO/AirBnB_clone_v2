@@ -11,9 +11,9 @@ class City(BaseModel, Base):
     The city class, contains state ID and name
     Class City that inherits from BaseModel
     """
+    __tablename__ = "cities"
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        __tablename__ = "cities"
-        state_id = Column(String(60), nullable=False, ForeignKey("states.id"))
+        state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
         name = Column(String(128), nullable=False)
     else:
         state_id = ""
