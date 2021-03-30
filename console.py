@@ -146,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
 
             setattr(new_instance, key, value)
         print(new_instance.id)
-        if getenv('HBNB_TYPE_STORAGE') == 'db':
+        if getenv("HBNB_TYPE_STORAGE") == "db":
             storage.new(new_instance)
             storage.save()
         else:
