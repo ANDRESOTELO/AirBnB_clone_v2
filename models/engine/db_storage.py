@@ -1,11 +1,16 @@
 #!/usr/bin/python3
 """ File to DBStorage """
-from os import getenv
-from sqlalchemy import create_engine
+from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.orm import scoped_session
-from models.base_model import Base
-
+from models.base_model import BaseModel, Base
+from os import getenv
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 class DBStorage():
     """ New engine DBStorage class """
@@ -20,12 +25,12 @@ class DBStorage():
         user = getenv("HBNB_MYSQL_USER")
         password = getenv("HBNB_MYSQL_PWD")
         host = getenv("HBNB_MYSQL_HOST")
-        db = getenv("HBNB_MYSQL_DB")
+        data_base = getenv("HBNB_MYSQL_DB")
         env = getenv("HBNB_ENV")
 
         # Engine creation <dialect = mysql // driver = mysqldb>
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(user, password, host, db),
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
+                                      .format(user, password, host, data_base),
                                       pool_pre_ping=True)
 
         # Drop all tables if the environment variable HBNB_ENV == test
