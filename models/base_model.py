@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
 import uuid
+import models
 from datetime import datetime
-import sqlalchemy
 from sqlalchemy import Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-
+from os import getenv
 # From sqlalchemy, base class which maintains a catalog of classes and
 # tables relative to that base
 Base = declarative_base()
@@ -20,8 +20,8 @@ class BaseModel:
     # Common values to inherit from other classes
     id = Column(String(60), primary_key=True)
     # default value is the current datetime, can't be  null
-    created_at = Column(DateTime, nullable=False, default = datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False, default = datetime.utcnow())
+    created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
     def __init__(self, *args, **kwargs):
         """Class constructor that inits class attributes"""
@@ -43,6 +43,7 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
+        self.__dict__.pop("_sa_instance_state", None)
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
     def save(self):
@@ -61,8 +62,7 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if "_sa_instance_state" in dictionary:
-            del dictionary["_sa_instance_state"]
+        dictionary.pop('_sa_instance_state', None)
         return dictionary
 
     def delete(self):
