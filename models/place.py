@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 from os import getenv
 
 
@@ -23,8 +23,6 @@ if getenv("HBNB_TYPE_STORAGE") == "db":
 
 class Place(BaseModel, Base):
     """ A place to stay """
-
-    amenity_ids = []
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -43,7 +41,7 @@ class Place(BaseModel, Base):
             secondary="place_amenity",
             viewonly=False,
             back_populates="place_amenities")
-        """else:
+    else:
         city_id = ""
         user_id = ""
         name = ""
@@ -54,9 +52,9 @@ class Place(BaseModel, Base):
         price_by_night = 0
         latitude = 0.0
         longitude = 0.0
-        amenity_ids = []"""
+        amenity_ids = []
 
-    else:
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def reviews(self):
             """getter attribute returns the list of Review instances"""
