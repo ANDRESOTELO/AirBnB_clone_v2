@@ -41,28 +41,27 @@ def do_deploy(archive_path):
     Fabric script that distributes an archive to your web servers
     """
 
-    if not os.path.exists(archive_path):
-        return(False)
-    try:
-        put(file_path, "/tmp/")
-        folder = "/data/web_static/releases/" + archive_path[9:-4]
-        file_name = archive_path[9:]
-        folder_name = archive_path[9:-4]
-        date = archive_path[21:-4]
-        releases_path = "/data/web_static/releases/"
+    if os.path.exists(archive_path):
+        try:
+            put(archive_path, "/tmp/")
+            folder_path = "/data/web_static/releases/" + archive_path[9:-4]
+            name_file = archive_path[9:]
+            name_folder = archive_path[9:-4]
+            date = archive_path[21:-4]
+            releases = "/data/web_static/releases/"
 
-        run("mkdir -p {}".format(folder))
-        run("tar -xzf /tmp/{} -C {}".format(file_name, folder))
-        run("rm /tmp/{}".format(file_name))
-        run("mv {}{}/web_static/* {}{}/"
-            .format(releases_path, folder_name, releases_path, folder_name)\
-)
-        run("rm -rf {}{}/web_static".format(releases_path, folder_name))
-        run("rm -rf /data/web_static/current")
-        run("ln -s {} /data/web_static/current".format(folder))
-        print("New version deployed!")
+            run("mkdir -p {}".format(folder_path))
+            run("tar -xzf /tmp/{} -C {}".format(name_file, folder_path))
+            run("rm /tmp/{}".format(name_file))
+            run("mv {}{}/web_static/* {}{}/"
+                .format(releases, name_folder, releases, name_folder))
+            run("rm -rf {}{}/web_static".format(releases, name_folder))
+            run("rm -rf /data/web_static/current")
+            run("ln -s {} /data/web_static/current".format(folder_path))
+            print("New version deployed!")
 
-        return (True)
-
-    except BaseException:
+            return (True)
+        except BaseException:
+            return (False)
+    else:
         return (False)
