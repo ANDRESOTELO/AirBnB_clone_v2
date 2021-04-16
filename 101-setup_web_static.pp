@@ -2,7 +2,6 @@
 
 package { 'nginx':
   ensure   => installed,
-  name	   => 'nginx',
   provider => 'apt'
 }
 ->
@@ -22,14 +21,18 @@ file { '/data/web_static/releases':
   ensure => directory
 }
 ->
+file { '/data/web_static/releases/test':
+  ensure => directory
+}
+->
 file { '/data/web_static/releases/test/index.html':
   ensure => present
 }
 ->
 file_line { 'index':
   ensure => present,
-  path	 => '/data/web_static/releases/test/index.html',
-  line	 => 'Holberton School, Holberton is cool!',
+  path   => '/data/web_static/releases/test/index.html',
+  line   => 'Holberton School, Holberton is cool!',
 }
 ->
 exec { 'create symbolik link':
