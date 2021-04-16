@@ -77,6 +77,6 @@ def deploy():
     if path_file is None:
         return(False)
 
-    path_created = do_deploy(file_path)
+    path_created = do_deploy(path_file)
 
     return(path_created)
