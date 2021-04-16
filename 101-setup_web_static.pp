@@ -1,7 +1,13 @@
 # Puppet for setup
 
+exec { 'update server':
+  command  => 'apt-get update',
+  user     => 'root',
+  provider => 'shell',
+}
+->
 package { 'nginx':
-  ensure   => installed,
+  ensure   => present,
   provider => 'apt'
 }
 ->
@@ -53,8 +59,8 @@ exec { 'Update the Nginx configuration':
   provider => 'shell'
 }
 ->
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => Package['nginx']
+exec { 'restart nginx':
+  command  => 'service nginx restart',
+  user     => 'root',
+  provider => 'shell'
 }
