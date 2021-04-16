@@ -40,16 +40,15 @@ def do_deploy(archive_path):
     """
     Fabric script that distributes an archive to your web servers
     """
-    file_path = archive_path
 
     if not os.path.exists(archive_path):
         return(False)
     try:
         put(file_path, "/tmp/")
-        folder = "/data/web_static/releases/" + file_path[9:-4]
-        file_name = file_path[9:]
-        folder_name = file_path[9:-4]
-        date = file_path[21:-4]
+        folder = "/data/web_static/releases/" + archive_path[9:-4]
+        file_name = archive_path[9:]
+        folder_name = archive_path[9:-4]
+        date = archive_path[21:-4]
         releases_path = "/data/web_static/releases/"
 
         run("mkdir -p {}".format(folder))
