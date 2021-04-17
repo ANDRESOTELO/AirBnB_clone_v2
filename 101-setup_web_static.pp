@@ -6,55 +6,55 @@ exec { 'update server':
   provider => 'shell',
 }
 
-package { 'nginx':
+-> package { 'nginx':
   ensure   => present,
   provider => 'apt'
 }
 
-file { '/data':
+-> file { '/data':
+  ensure  => directory
+}
+
+-> file { '/data/web_static':
   ensure => directory
 }
 
-file { '/data/web_static':
+-> file { '/data/web_static/shared':
   ensure => directory
 }
 
-file { '/data/web_static/shared':
+-> file { '/data/web_static/releases':
   ensure => directory
 }
 
-file { '/data/web_static/releases':
+-> file { '/data/web_static/releases/test':
   ensure => directory
 }
 
-file { '/data/web_static/releases/test':
-  ensure => directory
-}
-
-file { '/data/web_static/releases/test/index.html':
-  ensure => present,
+-> file { '/data/web_static/releases/test/index.html':
+  ensure  => present,
   content => 'Holberton School, Holberton is cool!'
 }
 
-exec { 'create symbolik link':
+-> exec { 'create symbolik link':
   command  => 'ln -s -n -f /data/web_static/releases/test/ /data/web_static/current',
   user     => 'root',
   provider => 'shell'
 }
 
-exec { 'Permissions':
+-> exec { 'Permissions':
   command  => 'chown -R ubuntu:ubuntu /data/',
   user     => 'root',
   provider => 'shell'
 }
 
-exec { 'Update the Nginx configuration':
+-> exec { 'Update the Nginx configuration':
   command  => 'sed -i "48i location /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n" /etc/nginx/sites-available/default',
   user     => 'root',
   provider => 'shell'
 }
 
-exec { 'restart nginx':
+-> exec { 'restart nginx':
   command  => 'service nginx restart',
   user     => 'root',
   provider => 'shell'
