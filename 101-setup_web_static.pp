@@ -32,17 +32,12 @@ file { '/data/web_static/releases/test':
 }
 
 file { '/data/web_static/releases/test/index.html':
-  ensure => present
-}
-
-file_line { 'index':
   ensure => present,
-  path   => '/data/web_static/releases/test/index.html',
-  line   => 'Holberton School, Holberton is cool!',
+  content => 'Holberton School, Holberton is cool!'
 }
 
 exec { 'create symbolik link':
-  command  => 'ln -s -f /data/web_static/releases/test/ /data/web_static/current',
+  command  => 'ln -s -n -f /data/web_static/releases/test/ /data/web_static/current',
   user     => 'root',
   provider => 'shell'
 }
