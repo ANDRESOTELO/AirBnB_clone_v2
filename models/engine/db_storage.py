@@ -45,7 +45,7 @@ class DBStorage():
         key = <class-name>.<object-id> // value = object
         """
         # dictionary to save objects like FileStorage
-        objets_dictionary = {}
+        objects_dictionary = {}
 
         # list of classes  if cls = None
         classes = ['User', 'State', 'City', 'Amenity', 'Place', 'Review']
@@ -61,8 +61,8 @@ class DBStorage():
                 key = "{}.{}".format(class_item, objects.id)
                 # setattr() sets the value of the specified attribute
                 # of the specified object
-                setattr(objets_dictionary, key, objects)
-        return (objets_dictionary)
+                setattr(objects_dictionary, key, objects)
+        return (objects_dictionary)
 
     def new(self, obj):
         """ Add the object to the current database session """
@@ -86,3 +86,7 @@ class DBStorage():
         # The object scoped_session represents a registry of Session objects
         Session = scoped_session(session)
         self.__session = Session()
+
+    def close(self):
+        """call close on the private session"""
+        self.__session.close()
