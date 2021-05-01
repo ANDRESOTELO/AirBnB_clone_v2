@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ File to DBStorage """
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.orm import scoped_session
 from models.base_model import BaseModel, Base
@@ -40,29 +40,33 @@ class DBStorage():
 
     def all(self, cls=None):
         """
-        Query on the current database session
-        this method return a dictionary like FileStorage
-        key = <class-name>.<object-id> // value = object
+        query in database
         """
-        # dictionary to save objects like FileStorage
-        objects_dictionary = {}
-
-        # list of classes  if cls = None
         classes = ['User', 'State', 'City', 'Amenity', 'Place', 'Review']
+        dictionary = {}
+        # list of classes  if cls = None
 
-        if cls is not None:
-            query = self.__session.query(cls).all()
-            for objects in query:
-                key = "{}.{}".format(objects.__class__.__name__, objects.id)
-                objects_dictionary[key] = objects
-        else:
+        if cls is None:
+            query_result = []
             for class_item in classes:
-                objects = self.__session.query(eval(class_item)).all()
-                key = "{}.{}".format(class_item, objects.id)
-                # setattr() sets the value of the specified attribute
-                # of the specified object
-                setattr(objects_dictionary, key, objects)
-        return (objects_dictionary)
+                query_result = self.__session.query(eval(class_name)).all()
+                if query_result is not None:
+                    for result in query_result:
+                        key = class_name + '.' + result.__dict__['id']
+                        dictionary[key] = result
+            return dictionary
+        else:
+            if isinstance(cls, str):
+                class_temp = eval(cls)
+            else:
+                class_temp = cls
+
+            query_result = self.__session.query(class_temp).all()
+            if query_result is not None:
+                for obj in query_result:
+                    key = "{}.{}".format(type(obj).__name__, obj.id)
+                    dictionary[key] = obj
+            return dictionary
 
     def new(self, obj):
         """ Add the object to the current database session """
