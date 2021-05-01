@@ -37,7 +37,7 @@ def variable_routes(text):
     as a keyword argument
     """
     text = text.replace('_', ' ')
-    return ('C %s' % (text))
+    return ('C {}'.format(text))
 
 
 # Other routes
@@ -49,7 +49,7 @@ def other_routes(text):
     Other vairable route
     """
     text = text.replace('_', ' ')
-    return 'Python %s' % (text)
+    return 'Python {}'.format(text)
 
 
 if __name__ == '__main__':
