@@ -36,6 +36,7 @@ def variable_routes(text):
     <variable_name>. Your function then receives the <variable_name>
     as a keyword argument
     """
+    text = text.replace('_', ' ')
     return ('C {}'.format(text))
 
 
