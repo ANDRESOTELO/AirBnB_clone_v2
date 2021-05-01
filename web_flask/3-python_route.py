@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 # First you have to import Flask class.
+"""
+script that starts a Flask web application
+"""
 from flask import Flask
 
 # An instance of Flask class, it will be our application
