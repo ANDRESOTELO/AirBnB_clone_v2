@@ -36,7 +36,7 @@ def variable_routes(text):
     <variable_name>. Your function then receives the <variable_name>
     as a keyword argument
     """
-    return ('C %s' % (text))
+    return ('C {}'.format(text))
 
 
 if __name__ == '__main__':
