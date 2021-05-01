@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-import models
 from models.base_model import BaseModel, Base
 from models.state import Base
 from sqlalchemy import Column, String, Integer, ForeignKey
@@ -8,6 +7,7 @@ from sqlalchemy.orm import relationship
 from os import getenv
 from models.city import City
 from models.engine.file_storage import FileStorage
+import models
 
 
 class State(BaseModel, Base):
