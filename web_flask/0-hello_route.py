@@ -4,7 +4,7 @@ from flask import Flask
 
 # An instance of Flask class, it will be our application
 # First argument is the name of the package or module
-app = Flask(__name__)
+app = Flask(__main__)
 
 
 # decorator is used to tell Flask what URL should trigger our function
