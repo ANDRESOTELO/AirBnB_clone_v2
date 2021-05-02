@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def tear_down(self):
+def tear_down(exception=None):
     """
     Method to remove the current SQLAlchemy Session
     """
