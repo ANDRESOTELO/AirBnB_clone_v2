@@ -25,8 +25,8 @@ class State(BaseModel, Base):
         # Delete cascade indicates that when a parent object is marked
         # for deletion, it's related child objects should be marked too
         # https://docs.sqlalchemy.org/en/13/orm/cascades.html#cascade-delete
-        cities = relationship("City", back_populates="state",
-                              cascade="all, delete, delete-orphan")
+        cities = relationship("City", backref="state",
+                              cascade="all, delete-orphan")
     else:
         name = ""
 
