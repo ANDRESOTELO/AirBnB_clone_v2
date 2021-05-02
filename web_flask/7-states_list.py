@@ -22,6 +22,7 @@ def list_states():
         states[value.id] = value.name
     return render_template('7-states_list.html', states=states)
 
+
 @app.teardown_appcontext
 def tear_down(self):
     """
