@@ -12,6 +12,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+
 class DBStorage():
     """ New engine DBStorage class """
     # Private class attributes
@@ -40,33 +41,29 @@ class DBStorage():
 
     def all(self, cls=None):
         """
-        query in database
+        Query on the current database session
+        this method return a dictionary like FileStorage
+        key = <class-name>.<object-id> // value = object
         """
-        classes = ['User', 'State', 'City', 'Amenity', 'Place', 'Review']
-        dictionary = {}
+        # dictionary to save objects like FileStorage
+        objets_dictionary = {}
+
         # list of classes  if cls = None
+        classes = ['User', 'State', 'City', 'Amenity', 'Place', 'Review']
 
-        if cls is None:
-            query_result = []
-            for class_item in classes:
-                query_result = self.__session.query(eval(class_name)).all()
-                if query_result is not None:
-                    for result in query_result:
-                        key = class_name + '.' + result.__dict__['id']
-                        dictionary[key] = result
-            return dictionary
+        if cls is not None:
+            query = self.__session.query(cls).all()
+            for objects in query:
+                key = "{}.{}".format(objects.__class__.__name__, objects.id)
+                objets_dictionary[key] = objects
         else:
-            if isinstance(cls, str):
-                class_temp = eval(cls)
-            else:
-                class_temp = cls
-
-            query_result = self.__session.query(class_temp).all()
-            if query_result is not None:
-                for obj in query_result:
-                    key = "{}.{}".format(type(obj).__name__, obj.id)
-                    dictionary[key] = obj
-            return dictionary
+            for class_item in classes:
+                objects = self.__session.query(eval(class_item)).all()
+                key = "{}.{}".format(class_item, objects.id)
+                # setattr() sets the value of the specified attribute
+                # of the specified object
+                setattr(objets_dictionary, key, objects)
+        return (objets_dictionary)
 
     def new(self, obj):
         """ Add the object to the current database session """
