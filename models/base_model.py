@@ -23,7 +23,6 @@ class BaseModel:
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
-
     def __init__(self, *args, **kwargs):
         """Class constructor that inits class attributes"""
 
@@ -58,7 +57,6 @@ class BaseModel:
         self.updated_at = datetime.now()
         storage.new(self)
         storage.save()
-
 
     def to_dict(self):
         """Convert instance into dict format"""
