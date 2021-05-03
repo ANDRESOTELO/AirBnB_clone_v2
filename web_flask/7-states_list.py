@@ -100,7 +100,7 @@ def template_even_odd(n):
 
 
 @app.teardown_appcontext
-def tear_down(exception=None):
+def tear_down(states):
     """
     Method to remove the current SQLAlchemy Session
     """
