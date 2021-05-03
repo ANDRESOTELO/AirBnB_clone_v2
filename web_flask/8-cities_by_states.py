@@ -15,14 +15,6 @@ from models.city import City
 app = Flask(__name__)
 
 
-@app.teardown_appcontext
-def tear_down(exception=None):
-    """
-    Method to remove the current SQLAlchemy Session
-    """
-    storage.close()
-
-
 @app.route('/states_list', strict_slashes=False)
 def list_states():
     """
@@ -119,5 +111,13 @@ def template_even_odd(n):
     return render_template('6-number_odd_or_even.html', n=n)
 
 
+@app.teardown_appcontext
+def tear_down(exception=None):
+    """
+    Method to remove the current SQLAlchemy Session
+    """
+    storage.close()
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0')
